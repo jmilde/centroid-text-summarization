@@ -1,4 +1,5 @@
 parameters = {"text_folder": "../data/test_files", # folder with text file/s
+              "out_path": "../data/test_summary.txt",
               "topic_threshold": 0.1,
               "sim_threshold": 0.9,
               "n_top" :3,

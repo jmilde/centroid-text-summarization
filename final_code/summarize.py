@@ -1,21 +1,11 @@
-from util import  load_embedding, clean_txt, topic_words, weight_sentences, get_centroid, select_ntop, score_sentences, select_sentences
+from util import  load_embedding, clean_txts, topic_words, weight_sentences, get_centroid, select_ntop, score_sentences, select_sentences, save_txt
 from nltk.corpus import stopwords
 import string
-
-def summarize(topic_threshold,
-              sim_threshold,
-              n_top,
-              remove_stopwords,
-              remove_punct,
-              language,
-              topic,
-              tfidf_path,
-              refdoc_path,
-              load_tfidf_model,
-              save_tfidf_model,
-              limit_type,
-              limit,
-              reorder)
+from parameters import parameters
+import os
+def summarize(text_folder, out_path, topic_threshold, sim_threshold, n_top,
+              remove_stopwords, remove_punct, language, topic, tfidf_path,
+              refdoc_path, load_tfidf_model, save_tfidf_model, limit_type, limit, reorder):
 
 
     ### LOAD EMBEDDING MODEL
@@ -33,7 +23,7 @@ def summarize(topic_threshold,
     if remove_punct:
         remove.update(list(string.punctuation))
 
-    clean_txt, raw_sents = clean_txt(plain_txt, remove)
+    clean_txt, raw_sents = clean_txts(plain_txt, remove)
 
     # GET TOPIC WORDS
     centroid_words_weights, tfidf_scores, feature_names = topic_words(
@@ -56,10 +46,11 @@ def summarize(topic_threshold,
 
     # select sentences
     summary = select_sentences(sentence_scores, sim_threshold, limit_type, limit, reorder)
+    save_txt(out_path, summary)
     return summary
 
 if __name__ == "__main__":
-    for key, val in params.items():
+    for key, val in parameters.items():
         exec(key+"=val")
 
-    summarize(topic_threshold, sim_threshold, n_top, remove_stopwords, remove_punct, language, topic, tfidf_path, refdoc_path, load_tfidf_model, save_tfidf_model, limit_type, limit, reorder)
+    summarize(text_folder, out_path, topic_threshold, sim_threshold, n_top, remove_stopwords, remove_punct, language, topic, tfidf_path, refdoc_path, load_tfidf_model, save_tfidf_model, limit_type, limit, reorder)

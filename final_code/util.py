@@ -15,6 +15,13 @@ def similarity(v1, v2):
     return score
 
 
+def save_txt(filename, lines, split=""):
+    """writes lines to text file."""
+    with open(filename, 'w') as file:
+        for line in lines:
+            print(line+split, file= file)
+
+
 def load_embedding(language, topic):
     assert language=="english" or language=="german", "language needs to be 'german' or 'english'"
     assert topic=="general" or topic=="news", "topic needs to be 'general' or 'news'"
@@ -34,8 +41,8 @@ def load_embedding(language, topic):
     return model
 
 
-def clean_txt(txt, remove):
-    sents = sent_tokenize(txt)y
+def clean_txts(txt, remove):
+    sents = sent_tokenize(txt)
     clean_sents = [" ".join([word for word in word_tokenize(sent.lower()) if word not in remove])
                    for sent in sents]
     clean_txt = " ".join(clean_sents)
