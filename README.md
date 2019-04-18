@@ -56,5 +56,6 @@ To run the summarizer open the parameters.py file and give the path to the folde
 Each document should be a seperate plaintext file.
 Then run
 ```
-python3 code/summarize.py
+cd code/
+python3 summarize.py
 ```
