@@ -3,12 +3,10 @@ from flask import Flask, flash, request, redirect, url_for
 from flask_cors import CORS
 import os
 import shutil
-import json
 from werkzeug.utils import secure_filename
 import zipfile
 
 import summarize
-import parameters
 
 """
 
@@ -32,7 +30,7 @@ app = Flask(__name__)
 app.secret_key = "super secret key"
 CORS(app)
 
-TEMP_DATA_FOLDER = os.path.abspath(os.path.join(os.getcwd(), '../data/temp_input'))
+TEMP_DATA_FOLDER = os.path.abspath(os.path.join(os.getcwd(), '../temp_input'))
 
 
 @app.route('/welcome', methods=['GET'])
@@ -65,7 +63,6 @@ def getsummary():
         #for key, val in parameters.parameters.items():
             #exec(key+"=val")
 
-        js = json.load(open(os.path.abspath(os.path.join(os.getcwd(), 'parameters.json'))))
         out_path = '../data/test_summary.txt'
         topic_threshold = 0.1
         sim_threshold= 0.9
