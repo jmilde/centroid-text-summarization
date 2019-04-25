@@ -60,7 +60,7 @@ def topic_words(sents, model_path, topic_threshold, load=True, save=False, refdo
         count_vect = CountVectorizer() #todo check settings
         ### IDF based on big reference corpus
         ref_docs = open(refdoc_path).read().split("\n")
-        doc_freq = count_vect.fit_transform(ref_docs+sents.split(' '))
+        doc_freq = count_vect.fit_transform(ref_docs+sents.split())
         if save: ## to save trained models
             pickle.dump(count_vect, open(model_path + "/count_vect.sav", 'wb'))
             pickle.dump(doc_freq, open(model_path + "/df_vect.sav", 'wb'))
