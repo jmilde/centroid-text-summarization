@@ -21,27 +21,25 @@ RUN cd centroid-text-summarization &&\
     mkdir data &&\
     mkdir data/embed_files
 
+# embeddings, cnn stories and ref_docs_clean need to be in data folder on the host machine
 COPY data/embed_files/GoogleNews-vectors-negative300.bin centroid-text-summarization/data/embed_files
-COPY data/cnn_stories_tokenized centroid-text-summarization/data/cnn_stories_tokenized
-COPY data/ref_docs_clean.txt centroid-text-summarization/data/ref_docs_clean.txt
-
-#ADD final_code/summarize.py python
-#ADD final_code/parameters.json python
-#ADD final_code/util.py python
-#ADD final_code/flaskController.py python
+#COPY data/cnn_stories_tokenized centroid-text-summarization/data/cnn_stories_tokenized
+#COPY data/ref_docs_clean.txt centroid-text-summarization/data/ref_docs_clean.txt
 
 RUN python -m nltk.downloader punkt
 RUN python -m nltk.downloader stopwords
 
-RUN export LC_ALL=C.UTF-8
-RUN export LANG=C.UTF-8
+#RUN export LC_ALL=C.UTF-8
+#RUN export LANG=C.UTF-8
 
 EXPOSE 5000
 
+# to generate tf idf vals on the fly, uncomment the following
 #WORKDIR /summ/centroid-text-summarization/
 #RUN python3 final_code/prep_tfidf_refcorpus.py
-# either run the above, or copy the output into the container right away if the prep stuff is ran locally already (the above takes a while). 
-COPY data/count_vect.sav centroid-text-summarization/data # this will fail though if the prep_tfidf_refcorpus script is not run locally beforehand
+
+# .sav files need to be on the host machine already (tfidf script takes a long time)
+COPY data/count_vect.sav centroid-text-summarization/data
 COPY data/df_vect.sav centroid-text-summarization/data
 
 WORKDIR /summ/centroid-text-summarization/final_code
